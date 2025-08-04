@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "web-interaction-toolkit": {
+      "command": "python",
+      "args": ["server.py"],
+      "env": {}
+    }
+  }
+}
