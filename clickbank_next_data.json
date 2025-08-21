@@ -1,0 +1,20 @@
+{
+  "props": {
+    "pageProps": {
+      "clientMetadata": {
+        "ipAddress": "46.132.191.217",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+        "eventId": "cc9adfc7-cd6c-4c46-b10a-f2e8e33073a7",
+        "timestamp": "1755772483036"
+      }
+    },
+    "__N_SSP": true
+  },
+  "page": "/master/sign-in",
+  "query": {},
+  "buildId": "vUdN5KheUVFk9G4Apzgb_",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gssp": true,
+  "scriptLoader": []
+}

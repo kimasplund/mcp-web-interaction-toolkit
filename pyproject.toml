@@ -1,6 +1,6 @@
 [project]
 name = "mcp-web-interaction-toolkit"
-version = "0.2.0"
+version = "0.3.0"
 description = "A modern MCP server for web scraping and API interaction with human behavior simulation"
 authors = [{name = "Kim Asplund"}]
 readme = "README.md"
@@ -12,6 +12,8 @@ dependencies = [
     "beautifulsoup4>=4.13.4",
     "lxml>=6.0.0",
     "pydantic>=2.11.7",
+    "bleach>=6.0.0",
+    "Brotli>=1.1.0",
 ]
 
 [project.urls]
@@ -20,10 +22,12 @@ Repository = "https://github.com/kimasplund/mcp-web-interaction-toolkit"
 
 [project.scripts]
 mcp-web-interaction-toolkit = "server:main"
+mcp-web-interaction-toolkit-enhanced = "server_enhanced:main"
+mcp-web-interaction-toolkit-integrated = "server_integrated:main"
 
 [build-system]
 requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = ["server"]
+py-modules = ["server", "server_enhanced", "server_integrated"]

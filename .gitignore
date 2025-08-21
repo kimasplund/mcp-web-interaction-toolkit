@@ -136,3 +136,7 @@ ehthumbs_vista.db
 local/
 tmp/
 temp/
+
+# API Discovery Cache
+.api_discovery/
+*.api_discovery.json
