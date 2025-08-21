@@ -18,6 +18,26 @@ A modern MCP (Model Context Protocol) server for web scraping and API interactio
 
 ## Installation
 
+### From PyPI (when published)
+
+```bash
+pip install mcp-web-interaction-toolkit
+```
+
+### From GitHub
+
+```bash
+# Install directly from GitHub
+pip install git+https://github.com/kimasplund/mcp-web-interaction-toolkit.git
+
+# Or install a specific branch/tag
+pip install git+https://github.com/kimasplund/mcp-web-interaction-toolkit.git@main
+pip install git+https://github.com/kimasplund/mcp-web-interaction-toolkit.git@v0.2.0
+
+# With extras/development dependencies
+pip install "git+https://github.com/kimasplund/mcp-web-interaction-toolkit.git#egg=mcp-web-interaction-toolkit[dev]"
+```
+
 ### From Source
 
 ```bash
@@ -287,7 +307,7 @@ pytest tests.py --cov=server --cov-report=html
 
 ### Project Structure
 
-```
+```text
 mcp-web-interaction-toolkit/
 ├── server.py           # Main MCP server implementation
 ├── tests.py            # Test suite
