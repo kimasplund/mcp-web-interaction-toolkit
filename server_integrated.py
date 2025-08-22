@@ -196,7 +196,16 @@ class EnhancedWebScraper:
         )
         if next_data_match:
             try:
-                js_data['__NEXT_DATA__'] = json.loads(next_data_match.group(1))
+                next_data = json.loads(next_data_match.group(1))
+                js_data['__NEXT_DATA__'] = next_data
+                
+                # Extract specific fields for authentication (ClickBank pattern)
+                if 'props' in next_data and 'pageProps' in next_data['props']:
+                    page_props = next_data['props']['pageProps']
+                    if 'clientMetadata' in page_props:
+                        js_data['eventId'] = page_props['clientMetadata'].get('eventId')
+                    if 'buildId' in next_data:
+                        js_data['buildId'] = next_data['buildId']
             except:
                 pass
                 
@@ -274,22 +283,36 @@ class EnhancedWebScraper:
             
             # Look for CSRF token
             csrf_meta = soup.find('meta', {'name': '_csrf'})
-            if csrf_meta:
+            if csrf_meta and hasattr(csrf_meta, 'get') and csrf_meta.get('content'):
                 auth_info['details']['csrf_token'] = csrf_meta.get('content')
                 
         # Check for form-based auth
         login_form = soup.find('form', {'action': re.compile(r'login|signin|auth', re.I)})
-        if login_form:
+        if login_form and hasattr(login_form, 'get'):
             auth_info['type'] = 'form_based' if auth_info['type'] == 'unknown' else 'hybrid'
-            auth_info['details']['form_action'] = urljoin(url, login_form.get('action', '/'))
-            auth_info['details']['form_method'] = login_form.get('method', 'POST').upper()
+            
+            # Get form action safely
+            form_action = login_form.get('action', '/')
+            if isinstance(form_action, str):
+                auth_info['details']['form_action'] = urljoin(url, form_action)
+            else:
+                auth_info['details']['form_action'] = url
+                
+            # Get form method safely
+            form_method = login_form.get('method', 'POST')
+            if isinstance(form_method, str):
+                auth_info['details']['form_method'] = form_method.upper()
+            else:
+                auth_info['details']['form_method'] = 'POST'
             
             # Extract form fields
             fields = {}
-            for input_field in login_form.find_all('input'):
-                field_name = input_field.get('name')
-                if field_name:
-                    fields[field_name] = input_field.get('value', '')
+            if hasattr(login_form, 'find_all'):
+                for input_field in login_form.find_all('input'):
+                    if hasattr(input_field, 'get'):
+                        field_name = input_field.get('name')
+                        if field_name:
+                            fields[field_name] = input_field.get('value', '')
             auth_info['details']['form_fields'] = fields
             
         # Check for OAuth
@@ -445,6 +468,11 @@ class EnhancedWebScraper:
                     'password': password
                 }
                 
+                # Add eventId if present (ClickBank pattern)
+                js_data = discovery.get('javascript_data', {})
+                if js_data.get('eventId'):
+                    login_data['eventId'] = js_data['eventId']
+                    
                 # Add CSRF if present
                 csrf_token = auth_info['details'].get('csrf_token')
                 if csrf_token:
@@ -692,7 +720,9 @@ async def extract_javascript_data(url: str) -> Dict[str, Any]:
 # Note: FastMCP handles cleanup automatically
 # Manual cleanup can be done if needed by calling scraper.cleanup()
 
-if __name__ == "__main__":
-    # Run the server
-    import sys
+def main():
+    """Main entry point for the MCP server"""
     mcp.run()
+
+if __name__ == "__main__":
+    main()
