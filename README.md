@@ -394,8 +394,10 @@ Or if using virtual environment:
 }
 ```
 
-Claude Codeclaude mcp add mcp-web-interaction-toolkit-integrated mcp-web-interaction-toolkit-integrated
-
+Claude Code
+```
+#claude mcp add mcp-web-interaction-toolkit-integrated mcp-web-interaction-toolkit-integrated
+```
 
 ### Environment Variables (Optional)
 
